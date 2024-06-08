@@ -3,14 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
-[RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Renderer))]
-
+[RequireComponent(typeof(Collider), typeof(Rigidbody), typeof(Renderer))]
 public class Cube : MonoBehaviour
 {
-    public event Action<GameObject> GotReleased;
-
     private Coroutine _releaseWaiter;
     private Rigidbody _rigidbody;
     private Renderer _renderer;
@@ -20,6 +15,9 @@ public class Cube : MonoBehaviour
     private float _minReleaseTime;
 
     private bool _isDeactivated;
+    private WaitForSecondsRealtime _wait;
+
+    public event Action<Cube> GotReleased;
 
     private void Awake()
     {
@@ -57,6 +55,7 @@ public class Cube : MonoBehaviour
             _renderer.material.color = UnityEngine.Random.ColorHSV();
 
             _timeBeforeRelease = UnityEngine.Random.Range(_minReleaseTime, _maxReleaseTime);
+            _wait = new WaitForSecondsRealtime(_timeBeforeRelease);
 
             RestartWaiting();
         }
@@ -68,14 +67,9 @@ public class Cube : MonoBehaviour
     }
 
     private IEnumerator WaitRelease()
-    {
-        var wait = new WaitForSecondsRealtime(_timeBeforeRelease);
-
-        while (true)
-        {
-            yield return wait;
-
-            GotReleased?.Invoke(gameObject);
-        }
+    {   
+        yield return _wait;
+        
+        GotReleased?.Invoke(this);
     }
 }

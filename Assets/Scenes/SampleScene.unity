@@ -621,7 +621,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _spawnBounds: {fileID: 326483705}
-  _cubePrefab: {fileID: 3193371933848091984, guid: aeedbbe126b81844abbbdf403fb97c92, type: 3}
+  _cubePrefab: {fileID: 2994479180155915935, guid: aeedbbe126b81844abbbdf403fb97c92, type: 3}
 --- !u!4 &935940662
 Transform:
   m_ObjectHideFlags: 0

@@ -7,7 +7,7 @@ using UnityEngine.Pool;
 public class Spawner : MonoBehaviour
 {
     [SerializeField] private Collider _spawnBounds;
-    [SerializeField] private GameObject _cubePrefab;
+    [SerializeField] private Cube _cubePrefab;
 
     private GameObject _cubesContainer;
 
@@ -18,13 +18,13 @@ public class Spawner : MonoBehaviour
     private float _spawnStartTime;
     private float _spawnRepeatRate;
 
-    private ObjectPool<GameObject> _pool;
+    private ObjectPool<Cube> _pool;
     private int _poolCapacity;
     private int _poolSize;
 
     private void Awake()
     {
-        _poolCapacity = 10;
+        _poolCapacity = 15;
         _poolSize = 10;
 
         _upperSpawnPosition = 5;
@@ -36,7 +36,7 @@ public class Spawner : MonoBehaviour
 
         _cubesContainer =  new GameObject("Cubes");
 
-        _pool = new ObjectPool<GameObject>(
+        _pool = new ObjectPool<Cube>(
             createFunc: () => Instantiate(_cubePrefab, _cubesContainer.transform),
             actionOnGet: (cube) => OnGetCube(cube),
             actionOnRelease: (cube) => OnReleaseCube(cube),
@@ -51,11 +51,11 @@ public class Spawner : MonoBehaviour
         InvokeRepeating(nameof(GetCube), _spawnStartTime, _spawnRepeatRate);
     }
 
-    private void OnGetCube(GameObject cube)
+    private void OnGetCube(Cube cube)
     {
         cube.transform.position = GetSpawnPosition();
-        cube.SetActive(true);
-        cube.GetComponent<Cube>().GotReleased += Release;
+        cube.gameObject.SetActive(true);
+        cube.GotReleased += Release;
     }
 
     private void GetCube()
@@ -63,13 +63,13 @@ public class Spawner : MonoBehaviour
         _pool.Get();
     }
 
-    private void OnReleaseCube(GameObject cube)
+    private void OnReleaseCube(Cube cube)
     {
-        cube.GetComponent<Cube>().GotReleased -= Release;
-        cube.SetActive(false);
+        cube.GotReleased -= Release;
+        cube.gameObject.SetActive(false);
     }
 
-    private void Release(GameObject cube)
+    private void Release(Cube cube)
     {
         _pool.Release(cube);
     }
