@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Collider), typeof(Rigidbody), typeof(Renderer))]
@@ -14,7 +13,7 @@ public class Cube : MonoBehaviour
     private float _maxReleaseTime;
     private float _minReleaseTime;
 
-    private bool _isDeactivated;
+    private bool _hasTouchedPlatform;
     private WaitForSecondsRealtime _wait;
 
     public event Action<Cube> GotReleased;
@@ -27,12 +26,12 @@ public class Cube : MonoBehaviour
         _maxReleaseTime = 5f;
         _minReleaseTime = 2f;
 
-        _isDeactivated = false;      
+        _hasTouchedPlatform = false;      
     }
 
     private void OnEnable()
     {
-        _isDeactivated = false;
+        _hasTouchedPlatform = false;
 
         _rigidbody.velocity = Vector3.zero;
         _renderer.material.color = Color.white;
@@ -48,9 +47,9 @@ public class Cube : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Platform>() != null && _isDeactivated == false)
+        if (collision.gameObject.GetComponent<Platform>() != null && _hasTouchedPlatform == false)
         {
-            _isDeactivated = true;
+            _hasTouchedPlatform = true;
 
             _renderer.material.color = UnityEngine.Random.ColorHSV();
 
