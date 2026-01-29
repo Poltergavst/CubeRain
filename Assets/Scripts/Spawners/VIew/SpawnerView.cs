@@ -12,14 +12,17 @@ public abstract class SpawnerView<T> : MonoBehaviour where T : MonoBehaviour
 
     private void OnEnable()
     {
+        _spawner.InstanceCreated += AddToCounter;
+        _spawner.PoolChanged += RefreshStats;
+    }
+
+    private void Start()
+    {
         _createdObjectsCounter = 0;
         _objectsTotal = 0;
         _objectsActive = 0;
 
         ShowStats();
-
-        _spawner.InstanceCreated += AddToCounter;
-        _spawner.PoolChanged += RefreshStats;
     }
 
     private void AddToCounter()
@@ -39,7 +42,7 @@ public abstract class SpawnerView<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual string MakeString()
     {
-        return $"Всего: {_objectsTotal}\nАктивно: {_objectsActive}\nЗаспавнено за все время: {_createdObjectsCounter}";
+        return $"Г‚Г±ГҐГЈГ®: {_objectsTotal}\nГЂГЄГІГЁГўГ­Г®: {_objectsActive}\nГ‡Г Г±ГЇГ ГўГ­ГҐГ­Г® Г§Г  ГўГ±ГҐ ГўГ°ГҐГ¬Гї: {_createdObjectsCounter}";
     }
 
     private void ShowStats()
