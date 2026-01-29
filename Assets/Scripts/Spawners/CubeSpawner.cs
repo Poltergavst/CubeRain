@@ -1,18 +1,17 @@
 using System;
+using System.Collections;
 using UnityEngine;
 
 public class CubeSpawner : Spawner<Cube>
 {
     [SerializeField] private Collider _spawnBounds;
 
-    private float _spawnStartTime;
     private float _spawnRepeatRate;
 
     public event Action<Cube> CubeReleased;
 
     protected override void Awake()
     {
-        _spawnStartTime = 0f;
         _spawnRepeatRate = 0.5f;
 
         base.Awake();
@@ -20,7 +19,7 @@ public class CubeSpawner : Spawner<Cube>
 
     private void Start()
     {
-        InvokeRepeating(nameof(GetInstance), _spawnStartTime, _spawnRepeatRate);
+        StartCoroutine(SpawnRepeatedly());
     }
 
     protected override void OnGetInstance(Cube cube)
@@ -54,5 +53,17 @@ public class CubeSpawner : Spawner<Cube>
         spawnPosition.x = UnityEngine.Random.Range(leftSpawnBound, rightSpawnBound);
 
         return spawnPosition;
+    }
+
+    private IEnumerator SpawnRepeatedly()
+    { 
+        WaitForSeconds delay = new(_spawnRepeatRate);
+
+        while (isActiveAndEnabled)
+        {
+            GetInstance();
+
+            yield return delay;
+        }
     }
 }

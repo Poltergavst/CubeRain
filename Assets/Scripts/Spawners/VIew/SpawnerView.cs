@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class SpawnerView<T> : MonoBehaviour where T : MonoBehaviour
 {
-    [SerializeField] protected TextMeshProUGUI _textField;
+    [SerializeField] protected TextMeshProUGUI TextField;
     [SerializeField] private Spawner<T> _spawner;
 
     private int _createdObjectsCounter;
@@ -14,6 +14,12 @@ public abstract class SpawnerView<T> : MonoBehaviour where T : MonoBehaviour
     {
         _spawner.InstanceCreated += AddToCounter;
         _spawner.PoolChanged += RefreshStats;
+    }
+
+    private void OnDisable()
+    {
+        _spawner.InstanceCreated -= AddToCounter;
+        _spawner.PoolChanged -= RefreshStats;
     }
 
     private void Start()
@@ -42,11 +48,11 @@ public abstract class SpawnerView<T> : MonoBehaviour where T : MonoBehaviour
 
     protected virtual string MakeString()
     {
-        return $"Âñåãî: {_objectsTotal}\nÀêòèâíî: {_objectsActive}\nÇàñïàâíåíî çà âñå âðåìÿ: {_createdObjectsCounter}";
+        return $"Всего: {_objectsTotal}\nАктивно: {_objectsActive}\nЗаспавнено за все время: {_createdObjectsCounter}";
     }
 
     private void ShowStats()
     {
-        _textField.text = MakeString();
+        TextField.text = MakeString();
     }
 }

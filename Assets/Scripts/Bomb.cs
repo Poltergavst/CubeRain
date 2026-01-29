@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Bomb : MonoBehaviour
 {
@@ -54,7 +55,7 @@ public class Bomb : MonoBehaviour
 		int minTime = 2;
 		int maxTime = 5;
 		float elapsedTime = 0;
-		int detonationTime = UnityEngine.Random.Range(minTime, maxTime + 1);
+		int detonationTime = Random.Range(minTime, maxTime + 1);
 
 		float maxAlpha = 1;
 		float alphaPerSec = maxAlpha / detonationTime;

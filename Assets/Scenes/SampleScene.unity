@@ -802,7 +802,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e56e365da6cbc1643bc713150eebcffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 2994479180155915935, guid: aeedbbe126b81844abbbdf403fb97c92, type: 3}
+  Prefab: {fileID: 2994479180155915935, guid: aeedbbe126b81844abbbdf403fb97c92, type: 3}
   _spawnBounds: {fileID: 326483705}
 --- !u!114 &935940664
 MonoBehaviour:
@@ -816,7 +816,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23d3fcd1e0e0b7343979b6bc7b19d171, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _prefab: {fileID: 4935867759851039967, guid: 0cc3889d4541bfb4796c5e746372fbf8, type: 3}
+  Prefab: {fileID: 4935867759851039967, guid: 0cc3889d4541bfb4796c5e746372fbf8, type: 3}
   _cubeSpawner: {fileID: 935940663}
 --- !u!1 &963194225
 GameObject:
@@ -2065,7 +2065,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36405d41272532645a738c92ca57129d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _textField: {fileID: 459841811}
+  TextField: {fileID: 459841811}
   _spawner: {fileID: 935940664}
 --- !u!114 &1825036523
 MonoBehaviour:
@@ -2079,7 +2079,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f54d5cc887270a46ac6dcd243dbae02, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _textField: {fileID: 1398528117}
+  TextField: {fileID: 1398528117}
   _spawner: {fileID: 935940663}
 --- !u!1 &1946389993
 GameObject:

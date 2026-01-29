@@ -4,32 +4,32 @@ using UnityEngine.Pool;
 
 public abstract class Spawner<T> : MonoBehaviour where T: MonoBehaviour
 {
-    [SerializeField] protected T _prefab;
+    [SerializeField] protected T Prefab;
 
-    protected GameObject _objectsContainer;
+    protected GameObject ObjectsContainer;
 
-    protected ObjectPool<T> _pool;
-    protected int _poolCapacity;
-    protected int _poolSize;
+    protected ObjectPool<T> Pool;
+    protected int PoolCapacity;
+    protected int PoolSize;
 
     public event Action InstanceCreated;
     public event Action<int, int> PoolChanged;
 
     protected virtual void Awake()
     {
-        _poolCapacity = 15;
-        _poolSize = 10;
+        PoolCapacity = 15;
+        PoolSize = 10;
 
-        _objectsContainer =  new GameObject(typeof(T) + "Container");
+        ObjectsContainer =  new GameObject(typeof(T) + "Container");
 
-        _pool = new ObjectPool<T>(
-            createFunc: () => Instantiate(_prefab, _objectsContainer.transform),
+        Pool = new ObjectPool<T>(
+            createFunc: () => Instantiate(Prefab, ObjectsContainer.transform),
             actionOnGet: (instance) => OnGetInstance(instance),
             actionOnRelease: (instance) => OnReleaseInstance(instance),
             actionOnDestroy: (instance) => Destroy(instance),
             collectionCheck: true,
-            defaultCapacity: _poolCapacity,
-            maxSize: _poolSize);
+            defaultCapacity: PoolCapacity,
+            maxSize: PoolSize);
     }
 
     protected virtual void OnGetInstance(T instance)
@@ -37,12 +37,12 @@ public abstract class Spawner<T> : MonoBehaviour where T: MonoBehaviour
         instance.gameObject.SetActive(true);
 
         InstanceCreated?.Invoke();
-        PoolChanged?.Invoke(_pool.CountAll, _pool.CountActive);
+        PoolChanged?.Invoke(Pool.CountAll, Pool.CountActive);
     }
 
     protected void GetInstance()
     {
-        _pool.Get();
+        Pool.Get();
     }
 
     protected virtual void OnReleaseInstance(T instance)
@@ -52,7 +52,7 @@ public abstract class Spawner<T> : MonoBehaviour where T: MonoBehaviour
 
     protected void Release(T instance)
     {
-        _pool.Release(instance);
-        PoolChanged?.Invoke(_pool.CountAll, _pool.CountActive);
+        Pool.Release(instance);
+        PoolChanged?.Invoke(Pool.CountAll, Pool.CountActive);
     }
 }
